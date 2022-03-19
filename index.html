@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>BUBBLES!</title>
+	<style>
+		body {
+			margin: 0;
+		}
+	</style>
+	<script src="three.js">
+	</script>
+</head>
+
+<body>
+	<script type=module>
+    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/controls/OrbitControls.js'
+		const MAX_BUBBLES = 500;
+    const SHADOWS = true;
+    const CONTROLS = true;
+    const MOTION = false;
+    const SEEDNUM = 3;
+    let bubbles = [];
+
+class Bubble{
+  constructor(x, y, z, size){
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.size = size;
+    this.inflateRate = Math.random() * 0.01 + 0.005;
+    this.geometry = new THREE.SphereGeometry( size, 32, 16 );
+    // set random color for each new bubble
+    let randomColor = '#' + Math.floor(Math.random()* 0xfffff * 1000000).toString(16).slice(0, 6);
+    this.material = new THREE.MeshBasicMaterial( { color: randomColor, transparent: true, opacity: 0.3 } );
+    //generate bubble
+    this.bubble = new THREE.Mesh( this.geometry, this.material );
+    this.bubble.position.set(x, y, z);
+    if(SHADOWS){
+      this.bubble.castShadow = true;
+      this.bubble.receiveShadow = true;
+    }
+    scene.add( this.bubble );
+  }
+  
+   update(){
+     this.bubble.rotation.x += 0.1;
+     this.bubble.rotation.y += 0.1;
+     this.bubble.rotation.z += 0.1;
+     this.bubble.scale.x += this.inflateRate;
+     this.bubble.scale.z += this.inflateRate;
+     this.bubble.scale.y += this.inflateRate;
+     if(this.bubble.scale.x > 3) this.pop();
+   }
+
+   pop(){
+     console.log("Pop!");
+     const coords1 = [];
+     const coords2 = [];
+     for (let i = 0; i < 3; i++){
+       coords1.push(Math.random() * window.innerWidth - window.innerWidth / 2)
+       coords2.push(Math.random() * window.innerWidth - window.innerWidth / 2)
+     }
+     //boundary check
+     bubbles = bubbles.length > MAX_BUBBLES ? bubbles.slice(0, MAX_BUBBLES / 2) : bubbles;
+     const bubble1 = new Bubble(...coords1, Math.random() * 10);
+     const bubble2 = new Bubble(...coords2, Math.random() * 10);
+     bubbles.push(bubble1, bubble2);
+     bubbles.splice(bubbles.indexOf(this), 1);
+     scene.remove(this.bubble);
+
+   }
+}
+  
+	const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize( window.innerWidth, window.innerHeight );
+  document.body.appendChild( renderer.domElement );
+
+  const controls = new OrbitControls( camera, renderer.domElement );
+
+  
+  if(SHADOWS){
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+
+    //add light
+    const light = new THREE.PointLight( 0xff0000, 1, 100 );
+    light.position.set( 0, 0, 0 );
+    light.castShadow = true;
+    light.intensity = 1;
+    //Set up shadow properties for the light
+    light.shadow.mapSize.width = 512; // default
+    light.shadow.mapSize.height = 512; // default
+    light.shadow.camera.near = 0.5; // default
+    light.shadow.camera.far = 500; // default
+
+    scene.add( light );
+
+  }
+
+  for (let i = SEEDNUM; i > 0; i--){
+  bubbles.push(new Bubble(0, 0, 0, 5));
+  }
+  camera.position.z = 25;
+  if(CONTROLS) controls.update();
+
+//animation loop
+function animate() {
+	requestAnimationFrame( animate )
+  if(CONTROLS) controls.update();
+  if(MOTION){
+    camera.rotation.x += .01;
+    camera.rotation.y += .01;
+    camera.roataion.z += .01;
+  }
+  for (let bub of bubbles){
+    bub.update();
+  }
+	renderer.render( scene, camera );
+}
+animate();
+	</script>
+</body>
+
+</html>
