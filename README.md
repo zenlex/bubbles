@@ -7,7 +7,11 @@ Developed as part of a creative coding meetup at Recurse Center
 
 ## Demo
 Currently deployed on replit [here](https://bubbles.zenlex.repl.co/)
+It will build up over time.
 
+### Navigation:
+- Scroll to zoom in/out
+- Click and drag to rotate camera
 
 ## Setup
 Script is self contained within `index.html`.
