@@ -5,6 +5,9 @@ Developed as part of a creative coding meetup at Recurse Center
 
 *Initial concept developed in collaboration with Ingrid Chung and Kawayan de Guzman.*
 
+## Demo
+Currently deployed on replit [here](https://bubbles.zenlex.repl.co/)
+
 
 ## Setup
 Script is self contained within `index.html`.
