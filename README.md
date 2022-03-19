@@ -9,16 +9,15 @@ Developed as part of a creative coding meetup at Recurse Center
 Currently deployed on replit [here](https://bubbles.zenlex.repl.co/)
 It will build up over time.
 
-### Navigation:
+## Navigation:
 - Scroll to zoom in/out
 - Click and drag to rotate camera
 
-## Setup
+## Local Setup
 Script is self contained within `index.html`.
 The core Three.JS library file is included locally as well. No other setup required. 
 
-
-### The Algorithm
+## Algorithm
 Bubbles spawn with randomized colors, positions, and growth rates
 Each time a bubble doubles in size it 'pops' and spawns two new random children
 
