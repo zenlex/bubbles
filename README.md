@@ -6,9 +6,9 @@ Developed as part of a creative coding meetup at Recurse Center
 *Initial concept developed in collaboration with Ingrid Chung and Kawayan de Guzman.*
 
 ## Demo
-Currently deployed on replit [here](https://bubbles.zenlex.repl.co/)
+Currently deployed [here](https://zenlex.github.io/bubbles)
 
-### Install
+### Run Locally
 Download the html file (the JavaScript is all embedded) and the three.js library file to the same folder. 
 Launch the html file in a browser. 
 
